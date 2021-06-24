@@ -1,0 +1,9 @@
+{
+  "name": "parquet-online-viewer",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "yarn build && ./bin/parquet-online-viewer",
+    "build": "cd frontend && yarn install && yarn build && cd .. && yarn vendor && make build",
+    "vendor": "make vendor"
+  }
+}

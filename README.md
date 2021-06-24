@@ -46,7 +46,7 @@ yarn docker:build
 To run container from docker.hub
 
 ```shell
-docker run --name=parquet-online-viewer -p 1323:1323 -d beer13/parquet-online-viewer
+docker run --name=parquet-online-viewer -p 80:1323 -d beer13/parquet-online-viewer
 ```
 
 ## Run with docker-compose
@@ -57,5 +57,5 @@ services:
   parquet-online-viewer:
     image: beer13/parquet-online-viewer:latest
     ports:
-      - "1323:1323"
+      - "80:1323"
 ```

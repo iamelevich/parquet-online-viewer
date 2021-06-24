@@ -24,4 +24,4 @@ COPY --from=builder /app/bin/parquet-online-viewer /app/service
 COPY --from=builder /app/frontend/build /app/public
 COPY --from=builder /app/package.json /app/package.json
 
-CMD ["/app/service --frontend=/app/public --version"]
+CMD ["/app/service --frontend=/app/public"]

@@ -24,6 +24,7 @@ func main() {
 	}
 
 	pathPtr := flag.String("frontend", filepath.Join(path, "../../frontend/build"), "Path to frontend build folder")
+	disablePathPtr := flag.Bool("disable-frontend", false, "Should disable fronted?")
 	flag.Parse()
 
 	e := echo.New()
@@ -40,18 +41,21 @@ func main() {
 	g.POST("/parquet", api.Parquet())
 	g.GET("/info", api.Info())
 
-	if string((*pathPtr)[0]) == "." {
-		path, err = os.Getwd()
-		*pathPtr = filepath.Join(path, *pathPtr)
+	if (*disablePathPtr) != true {
+		if string((*pathPtr)[0]) == "." {
+			path, err = os.Getwd()
+			*pathPtr = filepath.Join(path, *pathPtr)
+		}
+		log.Debug("Frontend path:", *pathPtr)
+		e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+			Root:   *pathPtr,
+			Index:  "index.html",
+			Browse: true,
+			HTML5:  true,
+		}))
+	} else {
+		log.Info("Frontend disabled")
 	}
-	log.Info("Frontend path:", *pathPtr)
-
-	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
-		Root:   *pathPtr,
-		Index:  "index.html",
-		Browse: true,
-		HTML5:  true,
-	}))
 
 	address := ":1323"
 	log.WithFields(log.Fields{

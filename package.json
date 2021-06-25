@@ -1,6 +1,6 @@
 {
   "name": "parquet-online-viewer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "yarn build && ./bin/parquet-online-viewer",
     "start:dev:be": "go run main.go --disable-frontend=true",

@@ -21,4 +21,4 @@ COPY --chown=app:users --from=builder /app/package.json /app/package.json
 
 USER app
 
-CMD ["/app/service", "--frontend=/app/public"]
+CMD ["/app/service", "--frontend=/app/public", "--package=/app/package.json"]

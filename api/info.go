@@ -13,9 +13,9 @@ type PackageJson struct {
 	Version string `json:"version"`
 }
 
-func Info() echo.HandlerFunc {
+func Info(packageJsonPath string) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		jsonFile, err := os.Open("./package.json")
+		jsonFile, err := os.Open(packageJsonPath)
 		if err != nil {
 			log.Error(err)
 			return err

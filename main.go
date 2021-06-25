@@ -12,20 +12,33 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+var pathPtr *string
+var disablePathPtr *bool
+var packageJsonPathPtr *string
+
 func init() {
 	log.SetFormatter(&log.TextFormatter{})
 	log.SetOutput(os.Stdout)
-}
-
-func main() {
 	path, err := os.Executable()
 	if err != nil {
 		panic(err)
 	}
 
-	pathPtr := flag.String("frontend", filepath.Join(path, "../../frontend/build"), "Path to frontend build folder")
-	disablePathPtr := flag.Bool("disable-frontend", false, "Should disable fronted?")
+	pathPtr = flag.String("frontend", filepath.Join(path, "../../frontend/build"), "Path to frontend build folder")
+	disablePathPtr = flag.Bool("disable-frontend", false, "Should disable fronted?")
+	packageJsonPathPtr = flag.String("package", filepath.Join(path, "../../package.json"), "package.json path")
 	flag.Parse()
+}
+
+func fixRelativePath(path *string) {
+	if string((*path)[0]) == "." {
+		if wd, err := os.Getwd(); err != nil {
+			*path = filepath.Join(wd, *path)
+		}
+	}
+}
+
+func main() {
 
 	e := echo.New()
 	e.HideBanner = true
@@ -39,13 +52,11 @@ func main() {
 
 	g := e.Group("/v1")
 	g.POST("/parquet", api.Parquet())
-	g.GET("/info", api.Info())
+	fixRelativePath(packageJsonPathPtr)
+	g.GET("/info", api.Info(*packageJsonPathPtr))
 
 	if (*disablePathPtr) != true {
-		if string((*pathPtr)[0]) == "." {
-			path, err = os.Getwd()
-			*pathPtr = filepath.Join(path, *pathPtr)
-		}
+		fixRelativePath(pathPtr)
 		log.Debug("Frontend path:", *pathPtr)
 		e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 			Root:   *pathPtr,

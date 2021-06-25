@@ -1,5 +1,8 @@
 # Parquet Online Viewer
 
+This is simple application to view Apache Parquet files. 
+You can test it [here](http://static.133.190.201.138.clients.your-server.de/)
+
 ## Development
 
 ### Backend

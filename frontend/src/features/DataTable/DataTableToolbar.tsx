@@ -20,7 +20,7 @@ import {
 } from '../parquetParser/parsedDataSlice';
 import CodeIcon from '@material-ui/icons/Code';
 import ListAltIcon from '@material-ui/icons/ListAlt';
-import { TextField } from '@material-ui/core';
+import { Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 import { downloadCSV, downloadJSON } from '../download/helpers';
 
 const useToolbarStyles = makeStyles((theme: Theme) =>
@@ -51,7 +51,7 @@ function DataTableToolbar(props: EnhancedTableToolbarProps) {
   const parsedData = useAppSelector(selectData);
   const filter = useAppSelector(selectFilter);
   const classes = useToolbarStyles();
-  const { selected } = props;
+  const { selected, showNulls, onShowNullsChange } = props;
 
   const downloadSelectedJSON = () => {
     const selectedData = parsedData.filter((value: any, index: number) =>
@@ -110,6 +110,7 @@ function DataTableToolbar(props: EnhancedTableToolbarProps) {
           </IconButton>
         </Tooltip>
       ) : null}
+      <FormControlLabel control={<Checkbox checked={showNulls} onChange={onShowNullsChange} />} label="Show null's" />
       <TextField
         label="Filter"
         variant="outlined"

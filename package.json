@@ -1,12 +1,12 @@
 {
   "name": "parquet-online-viewer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "scripts": {
     "start": "yarn build && ./bin/parquet-online-viewer",
     "start:dev:be": "go run main.go --disable-frontend=true",
     "start:dev:fe": "cd frontend && yarn start && cd ..",
     "build": "cd frontend && yarn install && yarn build && cd .. && yarn vendor && make build",
     "vendor": "make vendor",
-    "docker:build": "docker build . -t parquet-online-viewer"
+    "docker:build": "docker build . -t beer13/parquet-online-viewer"
   }
 }

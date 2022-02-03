@@ -30,4 +30,6 @@ export interface EnhancedTableProps {
 
 export interface EnhancedTableToolbarProps {
   selected: string[];
+  showNulls: boolean;
+  onShowNullsChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 }

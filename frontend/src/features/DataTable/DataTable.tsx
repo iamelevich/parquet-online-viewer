@@ -50,6 +50,7 @@ export default function EnhancedTable() {
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [showNulls, setShowNulls] = React.useState(true);
 
   const headCells: HeadCell[] = [
     {
@@ -120,6 +121,12 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
+  const handleShowNullsChange = (
+      event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setShowNulls(event.target.checked);
+  };
+
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   const emptyRows =
@@ -143,7 +150,6 @@ export default function EnhancedTable() {
         indexOfFiltered + filter.length,
         vAsString.length,
       );
-      console.log(indexOfFiltered, firstPart, filteredPart, lastPart);
       return (
         <span>
           {firstPart}
@@ -158,7 +164,7 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <DataTableToolbar selected={selected} />
+        <DataTableToolbar selected={selected} showNulls={showNulls} onShowNullsChange={handleShowNullsChange} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -198,7 +204,7 @@ export default function EnhancedTable() {
                     .filter((head) => head.id !== 'id')
                     .map((head) => (
                       <TableCell align="right" key={`${key}-${head.id}`}>
-                        {highlightFiltered(row[head.id])}
+                        {highlightFiltered(showNulls ? ''+row[head.id] : (row[head.id] != null ? ''+row[head.id] : undefined))}
                       </TableCell>
                     ));
 

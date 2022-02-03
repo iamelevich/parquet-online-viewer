@@ -20,7 +20,7 @@ To start frontend with HRM run:
 ```shell
 yarn start:dev:fe
 ```
-or for to `frontend` dir and run
+or go to `frontend` dir and run
 ```shell
 yarn start
 ```
